@@ -67,7 +67,7 @@ The purpose of this challenge is to build discipline, improve coding consistency
 
 ## 📈 Progress Tracker
 
-- 🔥 Current Streak: **Day 1 / 100**
+- 🔥 Current Streak: **Day 17 / 100**
 - 🎯 Goal: **100 Days**
 
 ---
