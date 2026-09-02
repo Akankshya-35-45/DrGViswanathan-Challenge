@@ -19,9 +19,14 @@ I may have started this challenge later than others, but I believe it's never to
 
 | Day | Task | Status |
 |-----|------|--------|
-| Day 1 | LeetCode Problem | ✅ |
-| Day 2 | Coming Soon | ⏳ |
-| Day 3 | Coming Soon | ⏳ |
+| Day 1 | ✅ |
+| Day 2 | ✅|
+| Day 3 | ✅ |
+.
+.
+.
+| Day 25 | ✅ |
+
 
 ---
 
