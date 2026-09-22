@@ -25,7 +25,7 @@ I may have started this challenge later than others, but I believe it's never to
 .
 .
 .
-| Day 33 | ✅ |
+| Day 45 | ✅ |
 
 
 ---
@@ -72,7 +72,7 @@ The purpose of this challenge is to build discipline, improve coding consistency
 
 ## 📈 Progress Tracker
 
-- 🔥 Current Streak: **Day 17 / 100**
+- 🔥 Current Streak: **Day 45 / 100**
 - 🎯 Goal: **100 Days**
 
 ---
