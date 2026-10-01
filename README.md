@@ -44,9 +44,9 @@ DrGViswanathan-Challenge/
 ```
 
 Each day's folder may include:
-- 💻 LeetCode/Codeforces/CodeChef solutions
+- 💻 LeetCode Solutions
 - 📝 Notes
-- 📸 Submission screenshots (optional)
+- 📸 Submission screenshots 
 - 🔗 Project source code (if applicable)
 
 ---
