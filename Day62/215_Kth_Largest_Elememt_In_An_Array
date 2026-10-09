@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+
+        // Min heap to store the k largest elements
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+
+        // Process every element
+        for (int num : nums) {
+
+            // Add current element
+            minHeap.push(num);
+
+            // Keep only k largest elements
+            if (minHeap.size() > k) {
+                minHeap.pop();
+            }
+        }
+
+        // Smallest among the k largest = kth largest
+        return minHeap.top();
+    }
+};
