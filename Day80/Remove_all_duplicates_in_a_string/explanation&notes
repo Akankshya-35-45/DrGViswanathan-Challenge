@@ -1,0 +1,121 @@
+###Problem ststement
+1.You are given a string s containing lowercase English letters.
+You must repeatedly remove two adjacent characters that are the same until no such pair remains.
+Return the final string.
+The important part is that removing a pair can create a new adjacent duplicate, so we must continue checking.
+Example 1
+Input
+s = "abbaca"
+Step-by-step removal
+a b [b b] a c a
+Remove the adjacent "bb".
+a [a a] c a
+The string becomes "aaca". Remove "aa".
+c a
+Final Output: "ca"
+
+Example 2
+- Input: s = "azxxzy"
+- Remove "xx" → "azzy"
+- Remove "zz" → "ay"
+- Output: "ay"
+The key observation is that after removing a duplicate pair, the remaining characters on either side may become adjacent and form another pair.
+
+2. Approach 1 — Brute force
+Idea
+The simplest approach is to:
+1. Traverse the string and find two adjacent equal characters.
+2. Remove those two characters.
+3. Start checking the string again from the beginning.
+4. Repeat until no adjacent duplicates remain.
+In C++, we can use string::erase() to remove characters.
+Time complexity: O(n^2)
+- Searching for a pair can take O(n)
+- Erasing characters from a string can take O(n) because the remaining characters may need to shift.
+- We may perform up to O(n) removals.
+Therefore, the worst-case time complexity is O(n^2).
+
+Auxiliary space complexity: O(1), excluding the input string, because we use only a few extra variables. However, the string itself is modified, and its storage is O(n).
+Why isn't brute force ideal?
+It repeatedly scans the string and shifts characters during erasure. This wastes time, especially when the input string contains many duplicates.
+Let's improve it!!!
+
+
+
+3. Approach 2 — Optimal solution using a string as a stack
+Recommended
+Idea
+We can process the string from left to right only once.
+Think of a stack as a row of characters:
+- If the current character differs from the last character in the stack, add it.
+- If it matches the last character, remove the last character from the stack instead of adding the current one.
+- Continue until every character has been processed.
+In C++, a string can behave like a stack using push_back() and pop_back()
+
+
+
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        string result = "";
+
+        for (char ch : s) {
+            if (!result.empty() && result.back() == ch) {
+                result.pop_back();
+            } else {
+                result.push_back(ch);
+            }
+        }
+        return result;
+    }
+};
+###code explanation
+Line 1
+class Solution {
+Defines the class expected by LeetCode.
+
+Line 2
+string removeDuplicates(string s) {
+Accepts the input string and returns the final string.
+
+Line 3
+string result = "";
+Creates an empty string to act as our stack. It will hold the characters that have not been removed.
+
+Line 4
+for (char ch : s) {
+Visits every character in the input string exactly once, from left to right.
+For "abbaca", the characters are processed in this order: a, b, b, a, c, a.
+
+Line 5
+if (!result.empty() && result.back() == ch) {
+Checks two conditions:
+- !result.empty() ensures the stack contains at least one character.
+- result.back() == ch checks whether the current character equals the stack's last character.
+Both conditions must be true before we remove a duplicate pair.
+
+Line 6
+result.pop_back();
+Removes the last character from the stack. The current character is not added, so both equal adjacent characters disappear.
+For example, if result = "ab" and ch = 'b', removing the last 'b' leaves result = "a".
+
+Line 7
+else {
+Runs when the stack is empty or its last character differs from the current character.
+
+Line 8
+result.push_back(ch);
+Adds the current character to the end of the result.
+
+Final line
+return result;
+Returns the remaining characters after all duplicate pairs have been processed.
+
+
+###Why is the stack approach optimal?
+1. Single traversal: Each input character is processed once.
+2. Efficient removal: pop_back() removes the last character without shifting all remaining characters.
+3. Automatic cascading: If removing a pair makes two equal characters adjacent, the stack catches that when the next character is processed.
+4. Linear time: Each character is pushed at most once and popped at most once, giving O(n) total time.
+5. Best practical choice: It is simple, efficient, and works well for the maximum constraint n = 10^5.
+The O(n) time complexity is asymptotically optimal because, in the general case, every input character must be examined.
