@@ -1,0 +1,174 @@
+1. Problem statement — in simple words
+You're given the root of a Binary Search Tree and two nodes, p and q.
+Your task is to find their Lowest Common Ancestor (LCA).
+An ancestor is a node that lies on the path from the root to a particular node. A node can also be considered its own ancestor.
+The lowest common ancestor is the deepest node in the tree that is an ancestor of both p and q.
+given:  6
+       / \
+      2   8
+     / \ / \
+    0  4 7  9
+      / \
+     3   5
+- p = 2, q = 8 → LCA is 6.
+- p = 2, q = 4 → LCA is 2, because a node can be its own ancestor.
+- p = 2, q = 1 is not the same problem's valid input, because the question guarantees that both nodes exist in the BST.
+Important BST property:
+- All values in the left subtree are smaller than the current node.
+- All values in the right subtree are greater than the current node.
+- All node values are unique.
+This property is the key to solving the problem efficiently.
+
+
+
+2. Brute force approach — find both paths
+Idea
+First, find the path from the root to p. Then find the path from the root to q.
+Compare the two paths from the beginning. The last node common to both paths is the LCA.
+
+For example, if:
+Path to p = 6 → 2 → 4
+Path to q = 6 → 2 → 5
+
+The common prefix is 6 → 2, so the LCA is 2.
+This approach works, but it does not fully exploit the BST's ordering property.
+
+Helper function: findPath()
+- bool findPath(...): returns true if the target node is found.
+- if (root == nullptr): if the current branch is empty, the target isn't there.
+- path.push_back(root): adds the current node to the path.
+- if (root == target): if we reach the target node, the path is complete.
+- findPath(root->left, ...): searches the left subtree.
+- findPath(root->right, ...): if the left subtree doesn't contain the target, searches the right subtree.
+- path.pop_back(): removes a node from the path if neither subtree contains the target. This is called backtracking.
+- return false: confirms that the target wasn't found along that branch.
+Main function: lowestCommonAncestor()
+- pathP stores the path from the root to node p.
+- pathQ stores the path from the root to node q.
+- findPath(root, p, pathP) and findPath(root, q, pathQ) construct both paths.
+- lca stores the latest common node, initially nullptr.
+- The while loop compares both paths node by node.
+- pathP[i] == pathQ[i] checks whether both paths contain the exact same node at that position.
+- Every time they match, lca is updated.
+- At the first mismatch, the loop stops, and lca is returned.
+
+Brute force complexity
+Let n be the number of nodes and h the height of the tree.
+- Time: O(n) — each path search may visit every node in the worst case; doing it twice is still O(n).
+- Auxiliary space: O(h) for the recursion stack, plus O(h) for each saved path. The two paths together use O(h) space asymptotically.
+
+
+
+3. Optimal approach — use the BST property
+The key observation
+We don't need to store paths or explore both subtrees. The BST's ordering tells us which direction to take.
+At every node, compare the current value with p and q.
+Case 1: Both nodes are smaller
+If p->val < root->val and q->val < root->val, both nodes must be in the left subtree. Move left.
+Case 2: Both nodes are larger
+If p->val > root->val and q->val > root->val, both nodes must be in the right subtree. Move right.
+Case 3: They split, or one equals the current node
+If one node is smaller and the other is larger, the current node is the LCA. If the current node equals p or q, that node itself is the LCA.
+
+Optimal C++ code — iterative approach
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root,
+                                   TreeNode* p, TreeNode* q) {
+        TreeNode* curr = root;
+        while (curr != nullptr) {
+            if (p->val < curr->val && q->val < curr->val) {
+                curr = curr->left;
+            }
+            else if (p->val > curr->val && q->val > curr->val) {
+                curr = curr->right;
+            }
+            else {
+                return curr;
+            }
+        }
+        return nullptr;
+    }
+};
+
+Line 1: TreeNode* curr = root;
+Start from the root because the LCA may be the root or a node somewhere below it.
+
+Line 2: while (curr != nullptr)
+Continue searching as long as there is a current node.
+
+Case 1: Both values are smaller
+if (p->val < curr->val && q->val < curr->val) {
+    curr = curr->left;
+}
+If both target values are smaller than the current value, the BST property guarantees that both targets lie in the left subtree. Move left.
+
+Case 2: Both values are larger
+else if (p->val > curr->val && q->val > curr->val) {
+    curr = curr->right;
+}
+If both target values are greater than the current value, both targets lie in the right subtree. Move right.
+
+Case 3: We found the LCA
+else {
+    return curr;
+}
+This covers two possibilities:
+- The values lie on opposite sides of the current node.
+- The current node equals p or q.
+In either case, the current node is the lowest common ancestor, so we return it immediately.
+
+Final line: return nullptr;
+This is a fallback if the search reaches a null pointer. Under the given problem constraints, both nodes exist in the BST, so the function will find and return the LCA before reaching this line.
+
+4. Optimal approach — dry run with Example 1
+Given:
+        6
+       / \
+      2   8
+     / \ / \
+    0  4 7  9
+      / \
+     3   5
+
+p = 2, q = 8
+Initially, curr = 6.
+6
+
+Step 1 — Current node = 6
+
+p = 2 is smaller than 6, while q = 8 is greater than 6.
+
+They lie on opposite sides. Return 6.
+
+
+
+The algorithm returns immediately after one comparison step. It does not need to visit nodes 2, 4, 8, or any of their children.
+
+Output: 6
+Another dry run: Example 2
+Given p = 2, q = 4.
+6-Step 1: curr = 6
+Both 2 and 4 are smaller than 6.
+Move left: curr = curr->left.
+2-Step 2: curr = 2
+p->val == curr->val.
+The current node is itself one of the targets, so return 2.
+
+Output: 2
+This illustrates why the else condition is important: it handles both the split between subtrees and the case where one target is the ancestor of the other.
+
+
+Why does the optimal approach take \(O(h)\) time? It moves down only one branch of the tree, processing at most one node per level.
+- For a balanced BST, \(h = O(\log n)\), so the optimal approach takes \(O(\log n)\) time.
+- For a skewed BST, \(h = O(n)\), so the worst-case time is \(O(n)\).
+Important interview point: The optimal iterative approach guarantees \(O(1)\) auxiliary space and uses the BST property to avoid unnecessary traversal. It does not guarantee \(O(\log n)\) time unless the tree is balanced.
+
+
+Why is the iterative approach better?
+- No extra path storage: It doesn't maintain two vectors.
+- No backtracking: It never needs to undo a traversal.
+- Only one direction per step: It moves left, moves right, or returns the answer.
+- Lower auxiliary space: It uses a constant number of pointers and comparisons.
+- Uses the BST property: The ordering of values tells us exactly which subtree can contain both nodes.
+The brute force approach is useful for understanding the LCA concept in a general binary tree. The optimal approach is better for this problem because the tree is specifically a BST.
