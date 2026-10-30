@@ -1,6 +1,6 @@
-# 🚀 100 Days of #DrGViswanathanChallenge
+# 🚀 100 Days of #DrGViswanathan Challenge
 
-Welcome to my **100 Days of #DrGViswanathanChallenge** repository!
+Welcome to my **100 Days of #DrGViswanathan Challenge** repository!
 
 I may have started this challenge later than others, but I believe it's never too late to begin. This repository documents my journey of improving my coding, problem-solving, and software development skills through consistent daily effort.
 
