@@ -1,4 +1,4 @@
-# Day 98 – Break a Palindrome (LeetCode 1328)
+# Day 96 – Break a Palindrome (LeetCode 1328)
 ## Problem Statement
 Given a palindromic string of lowercase English letters, replace exactly one character with any lowercase English letter so that the resulting string is not a palindrome and is lexicographically the smallest possible.
 Return the resulting string. If it is impossible to make the string non-palindromic, return an empty string.
@@ -132,6 +132,5 @@ If all characters in the first half are `'a'`, changing the last character to `'
 - Learned why replacing the last character with `'b'` handles the special case when all characters are `'a'`.
 - Improved understanding of lexicographical ordering and string manipulation.
 - Learned how a greedy observation reduces the solution from `O(n²)` brute force to `O(n)` time and `O(1)` auxiliary space.
-## Day 98 Progress
+## Day 96 Progress
 Another day of learning greedy strategies, understanding string properties, and improving problem-solving skills.
-98/100 – Two more days to complete the 100 Days of Code challenge!
