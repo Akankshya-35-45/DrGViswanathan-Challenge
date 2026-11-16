@@ -25,7 +25,7 @@ I may have started this challenge later than others, but I believe it's never to
 .
 .
 .
-| Day 80 | ✅ |
+| Day 100 | ✅ |
 
 
 ---
@@ -40,7 +40,7 @@ DrGViswanathan-Challenge/
 ├── Day-02/
 ├── Day-03/
 ├── Projects/
-└── Open-Source/
+└── Open-Source/ (if)
 ```
 
 Each day's folder may include:
@@ -72,7 +72,7 @@ The purpose of this challenge is to build discipline, improve coding consistency
 
 ## 📈 Progress Tracker
 
-- 🔥 Current Streak: **Day 50 / 100**
+- 🔥 Current Streak: **Day 100 / 100**
 - 🎯 Goal: **100 Days**
 
 ---
